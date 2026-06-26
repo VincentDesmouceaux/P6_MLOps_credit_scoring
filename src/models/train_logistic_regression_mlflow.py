@@ -21,8 +21,6 @@ from sklearn.preprocessing import StandardScaler
 from src.config import PROCESSED_DATA_DIR
 from src.models.mlflow_utils import get_git_branch_name, get_git_commit_hash
 
-with mlflow.start_run(run_name="logistic_regression_balanced"):
-
 
 TRAIN_MODELING_FILE = "train_modeling.csv"
 
@@ -183,8 +181,8 @@ def main() -> None:
             "description",
             "Régression logistique avec imputation, scaling et class_weight balanced",
         )
-        mlflow.set_tag ("git_commit", get_git_commit_hash ( ))
-        mlflow.set_tag ("git_branch", get_git_branch_name ( ))
+        mlflow.set_tag("git_commit", get_git_commit_hash())
+        mlflow.set_tag("git_branch", get_git_branch_name())
 
         mlflow.log_param("model", "LogisticRegression")
         mlflow.log_param("imputer_strategy", "median")
@@ -198,7 +196,6 @@ def main() -> None:
         mlflow.log_param("fp_cost", FP_COST)
         mlflow.log_param("n_features", X.shape[1])
         mlflow.log_param("n_rows", X.shape[0])
-
 
         print("Entraînement de la LogisticRegression...")
         model.fit(X_train, y_train)
