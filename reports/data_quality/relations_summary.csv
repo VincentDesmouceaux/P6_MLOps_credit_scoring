@@ -1,0 +1,7 @@
+parent_table,child_table,key,parent_unique_keys,child_unique_keys,common_keys,parent_only_keys,child_only_keys,mean_child_rows_per_key,max_child_rows_per_key
+application_train,bureau,SK_ID_CURR,307511,305811,263491,44020,42320,5.61,116
+bureau,bureau_balance,SK_ID_BUREAU,1716428,817395,774354,942074,43041,33.4,97
+application_train,previous_application,SK_ID_CURR,307511,338857,291057,16454,47800,4.93,77
+application_train,pos_cash_balance,SK_ID_CURR,307511,337252,289444,18067,47808,29.66,295
+application_train,installments_payments,SK_ID_CURR,307511,339587,291643,15868,47944,40.06,372
+application_train,credit_card_balance,SK_ID_CURR,307511,103558,86905,220606,16653,37.08,192

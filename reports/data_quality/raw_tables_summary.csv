@@ -1,0 +1,11 @@
+table,rows,columns,duplicates,total_missing_values,missing_rate,numeric_columns,categorical_columns
+application_train,307511,122,0,9152465,0.244,106,16
+application_test,48744,121,0,1404419,0.2381,105,16
+bureau,1716428,17,0,3939947,0.135,14,3
+bureau_balance,27299925,3,0,0,0.0,2,1
+previous_application,1670214,37,0,11109336,0.1798,21,16
+pos_cash_balance,10001358,8,0,52158,0.0007,7,1
+installments_payments,13605401,8,0,5810,0.0001,8,0
+credit_card_balance,3840312,23,0,5877356,0.0665,22,1
+columns_description,219,5,0,133,0.1215,1,4
+sample_submission,48744,2,0,0,0.0,2,0

@@ -1,0 +1,14 @@
+table,key,key_exists,rows,unique_keys,missing_keys,duplicated_key_rows,max_rows_per_key,mean_rows_per_key
+application_train,SK_ID_CURR,True,307511,307511,0,0,1,1.0
+application_test,SK_ID_CURR,True,48744,48744,0,0,1,1.0
+bureau,SK_ID_CURR,True,1716428,305811,0,1410617,116,5.61
+bureau,SK_ID_BUREAU,True,1716428,1716428,0,0,1,1.0
+bureau_balance,SK_ID_BUREAU,True,27299925,817395,0,26482530,97,33.4
+previous_application,SK_ID_CURR,True,1670214,338857,0,1331357,77,4.93
+previous_application,SK_ID_PREV,True,1670214,1670214,0,0,1,1.0
+pos_cash_balance,SK_ID_CURR,True,10001358,337252,0,9664106,295,29.66
+pos_cash_balance,SK_ID_PREV,True,10001358,936325,0,9065033,96,10.68
+installments_payments,SK_ID_CURR,True,13605401,339587,0,13265814,372,40.06
+installments_payments,SK_ID_PREV,True,13605401,997752,0,12607649,293,13.64
+credit_card_balance,SK_ID_CURR,True,3840312,103558,0,3736754,192,37.08
+credit_card_balance,SK_ID_PREV,True,3840312,104307,0,3736005,96,36.82

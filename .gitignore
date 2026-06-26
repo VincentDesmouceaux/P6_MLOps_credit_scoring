@@ -1,0 +1,10 @@
+.venv/
+data/raw/
+data/interim/
+data/processed/
+mlruns/
+mlartifacts/
+reports/figures/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
