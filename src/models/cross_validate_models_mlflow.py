@@ -7,6 +7,9 @@ import mlflow
 import numpy as np
 import pandas as pd
 
+from sklearn.neural_network import MLPClassifier
+from xgboost import XGBClassifier
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
@@ -147,6 +150,8 @@ def get_models(scale_pos_weight: float) -> dict:
     LogisticRegression : modèle linéaire simple.
     RandomForest : modèle ensembliste basé sur des arbres.
     LightGBM : modèle de boosting performant sur données tabulaires.
+    XGBoost : autre modèle de gradient boosting.
+    MLPClassifier : réseau de neurones simple.
     """
     models = {
         "logistic_regression_balanced_cv": Pipeline(
@@ -164,6 +169,7 @@ def get_models(scale_pos_weight: float) -> dict:
                 ),
             ]
         ),
+
         "random_forest_balanced_cv": Pipeline(
             steps=[
                 ("imputer", SimpleImputer(strategy="median")),
@@ -180,6 +186,7 @@ def get_models(scale_pos_weight: float) -> dict:
                 ),
             ]
         ),
+
         "lightgbm_weighted_cv": lgb.LGBMClassifier(
             objective="binary",
             n_estimators=300,
@@ -192,6 +199,44 @@ def get_models(scale_pos_weight: float) -> dict:
             scale_pos_weight=scale_pos_weight,
             random_state=RANDOM_STATE,
             n_jobs=-1,
+            verbose=-1,
+        ),
+
+        "xgboost_weighted_cv": XGBClassifier(
+            objective="binary:logistic",
+            eval_metric="auc",
+            n_estimators=300,
+            learning_rate=0.05,
+            max_depth=4,
+            subsample=0.8,
+            colsample_bytree=0.8,
+            min_child_weight=50,
+            scale_pos_weight=scale_pos_weight,
+            random_state=RANDOM_STATE,
+            n_jobs=-1,
+            tree_method="hist",
+        ),
+
+        "mlp_balanced_cv": Pipeline(
+            steps=[
+                ("imputer", SimpleImputer(strategy="median")),
+                ("scaler", StandardScaler()),
+                (
+                    "classifier",
+                    MLPClassifier(
+                        hidden_layer_sizes=(64, 32),
+                        activation="relu",
+                        solver="adam",
+                        alpha=0.0001,
+                        batch_size=512,
+                        learning_rate_init=0.001,
+                        max_iter=50,
+                        early_stopping=True,
+                        validation_fraction=0.1,
+                        random_state=RANDOM_STATE,
+                    ),
+                ),
+            ]
         ),
     }
 
@@ -314,15 +359,13 @@ def log_cv_results_to_mlflow(
         cv_results.to_csv(output_path, index=False)
         mlflow.log_artifact(output_path)
 
-        # On logge seulement les modèles sklearn en artefact.
-        # LightGBM est déjà versionné dans l'étape précédente.
-        if model_name != "lightgbm_weighted_cv":
-            mlflow.sklearn.log_model(
-                sk_model=model,
-                name="model",
-                skops_trusted_types=["numpy.dtype"],
-            )
-
+        # Dans cette étape de validation croisée, on ne sauvegarde pas les modèles.
+        # L'objectif est de comparer les performances moyennes et la robustesse
+        # des algorithmes avec StratifiedKFold.
+        #
+        # Les modèles complets seront sauvegardés plus tard après sélection finale.
+        # Cela évite aussi d'alourdir MLflow avec plusieurs artefacts de modèles.
+        print (f"Modèle non sauvegardé en artefact pour le run CV : {model_name}")
 
 def main() -> None:
     mlflow.set_experiment(EXPERIMENT_NAME)
