@@ -8,3 +8,13 @@ reports/figures/
 __pycache__/
 .ipynb_checkpoints/
 .DS_Store
+# MLflow local tracking
+mlflow.db
+notebooks/mlflow.db
+mlruns/
+mlartifacts/
+
+# Generated experiment outputs
+cv_results_*.csv
+threshold_tuning_results.csv
+xgboost_threshold_cv_results_*.csv
