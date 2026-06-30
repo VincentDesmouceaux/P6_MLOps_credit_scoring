@@ -4,11 +4,7 @@ import mlflow
 from mlflow.tracking import MlflowClient
 
 
-# Racine du projet :
-# fichier actuel = src/models/update_mlflow_experiments_metadata.py
-# parents[2] = racine du projet P6_MLOps_credit_scoring
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-
 MLFLOW_DB_PATH = PROJECT_ROOT / "mlflow.db"
 
 mlflow.set_tracking_uri(f"sqlite:///{MLFLOW_DB_PATH}")
@@ -53,6 +49,29 @@ EXPERIMENTS_METADATA = {
             "class_imbalance": "TARGET_1_around_8_percent",
             "dataset": "Home_Credit_Default_Risk",
             "models_tested": "LogisticRegression_RandomForest_LightGBM_XGBoost_MLP",
+        },
+    },
+    "P6_credit_scoring_optimization": {
+        "description": (
+            "Optimisation des hyperparamètres du modèle XGBoost avec Optuna et "
+            "ajustement du seuil de décision métier. L'objectif est de minimiser "
+            "le coût métier personnalisé, défini par 10 fois le nombre de faux "
+            "négatifs plus 1 fois le nombre de faux positifs. Plusieurs seuils "
+            "de classification entre 0.10 et 0.90 sont testés afin de sélectionner "
+            "le meilleur compromis métier."
+        ),
+        "tags": {
+            "project": "P6_MLOps_credit_scoring",
+            "step": "hyperparameter_threshold_optimization",
+            "target": "TARGET",
+            "problem_type": "binary_classification",
+            "optimization_tool": "Optuna",
+            "optimized_model": "XGBoost",
+            "validation_strategy": "StratifiedKFold",
+            "business_metric": "10_FN_plus_1_FP",
+            "best_threshold": "0.45",
+            "best_mean_business_cost": "13609.33",
+            "dataset": "Home_Credit_Default_Risk",
         },
     },
 }
